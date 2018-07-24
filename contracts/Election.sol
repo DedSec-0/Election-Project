@@ -9,18 +9,28 @@ contract Election {
 	}
 	
 	mapping (uint => Candidate) public candidates;
+	mapping (address => bool) public voters;
+	
 	uint public candidatesCount;
 	
 
 	constructor () public {
-		addCandidate("Candidate 1");
-		addCandidate("Candidate 2");
+		addCandidate("Imran Khan");
+		addCandidate("Nawaz Sharif");
 	}
 
-	function addCandidate (string _name) private {
+	function addCandidate (string _name) internal {
 		candidatesCount++;
 		candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
 	}
-	
+
+	function vote (uint _id) public {
+		
+		require (!voters[msg.sender]);
+		require (_id > 0 && _id <= candidatesCount);
+		
+		voters[msg.sender] = true;
+		candidates[_id].voteCount++;
+	}	
 	
 }
