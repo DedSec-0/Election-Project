@@ -19,7 +19,7 @@ contract Election {
 		addCandidate("Nawaz Sharif");
 	}
 
-	function addCandidate (string _name) internal {
+	function addCandidate (string _name) private {
 		candidatesCount++;
 		candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
 	}
@@ -31,6 +31,10 @@ contract Election {
 		
 		voters[msg.sender] = true;
 		candidates[_id].voteCount++;
-	}	
+		votedEvent(_id);
+	}
+
+	event votedEvent(uint candidateID);
+			
 	
 }
